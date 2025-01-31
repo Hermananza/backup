@@ -1,32 +1,17 @@
-import os
 import zipfile
+import os
 
-def zip_folder(folder_path, output_path):
-    """
-    Mengompres folder ke file .zip.
+# Path file yang akan dikompres
+file_to_zip = '/var/lib/marzban/db.sqlite3'  # Ganti dengan path file Anda
 
-    :param folder_path: Path folder yang akan dikompres.
-    :param output_path: Path file .zip yang akan dibuat.
-    """
-    try:
-        # Membuat file .zip
-        with zipfile.ZipFile(output_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
-            # Walk melalui folder dan tambahkan semua file ke .zip
-            for root, dirs, files in os.walk(folder_path):
-                for file in files:
-                    file_path = os.path.join(root, file)
-                    arcname = os.path.relpath(file_path, start=folder_path)
-                    zipf.write(file_path, arcname)
-        print(f"Folder '{folder_path}' berhasil dikompres ke '{output_path}'.")
-    except Exception as e:
-        print(f"Gagal mengompres folder: {e}")
+# Path file ZIP output
+zip_output = 'backup.zip'  # Ganti dengan path output ZIP yang diinginkan
 
-# Contoh penggunaan
-folder_to_zip = "/var/lib/marzban"  # Ganti dengan path folder yang ingin dikompres
-output_zip_file = "backup.zip"  # Ganti dengan path file .zip output
+# Membuat file ZIP dan menambahkan file ke dalamnya
+with zipfile.ZipFile(zip_output, 'w') as zipf:
+    zipf.write(file_to_zip, arcname=os.path.basename(file_to_zip))
 
-zip_folder(folder_to_zip, output_zip_file)
-
+print(f"File {file_to_zip} berhasil dikompres menjadi {zip_output}")
 import requests
 
 # Ganti dengan token bot dan chat ID Anda
